@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+	<meta property="og:image" content="http://wok3n.merkoba.com/wmedia/images/{{track_id}}.jpg" />
+	<meta property="og:image:width" content="800"/>
+	<meta property="og:image:height" content="600"/>
+
+	<title> {{title}} - Wok3n </title>
+
+    <style>
+    	body, html 
+    	{
+    		overflow: hidden;
+    	}
+    </style>
+
+	<script type="text/javascript">
+	    // csrf_token = "{{csrf_token}}";
+	    track_id = "{{track_id}}";
+	    track_extension = "{{extension}}";
+	    track_time = {{time}};
+	    title = "{{title}}";
+	    play_likes = "{{play_likes}}";
+	    random_order = "{{random_order}}";
+	    $(function()
+	    {
+	        init();
+	    })
+	</script>
+
+{% endblock %}
+
+{% block body %}
+
+	<div id='top'> 
+		<div id='menu_container' class='unselectable'>
+	    	<i class='fa fa-align-justify hover_icon' id='hover_suggestions_icon' onclick='toggle_hover_suggestions()'> </i>
+	    	<a class='menu onlybig' href='/add_track'> + add track </a>
+	    	<span class='menu' onclick='previous_track()'> &lt; prev </span>
+	    	<span class='menu' onclick='next_track()'> next &gt; </span>
+	    	<span class='menu onlybig'> <input onclick='automatic_change()' id='autonext_checkbox' type='checkbox' name='autonext' value='autonext'> <span onclick='automatic_change2()'> automatic </span> </span>
+	    	<a class='menu onlybig' href='/catalog'> catalog </a>
+	    	<i class='menu fa fa-sort-desc' id='other_menu_arrow' href='/catalog' onclick='toggle_other_menu()'> </i>
+	    	<i class='fa fa-comment hover_icon' id='hover_comments_icon' onclick='toggle_hover_comments()'> </i>
+	    </div>
+		<div id='info'>{{title}}</div>
+	</div>
+
+	<div id='other_menu' class='unselectable'>
+
+		<div class='onlysmall'> 
+
+			<div class='other_menu_item_container' onclick='window.location="/add_track"'>
+				<i class='other_menu_icon fa fa-plus'></i>
+				<div class='other_menu_item'> Add Track </div>
+			</div> 
+			
+			<div class='menu_divider'></div>
+
+		</div>
+
+		<div class='onlysmall'> 
+
+			<div class='other_menu_item_container' onclick='window.location="/catalog"'>
+				<i class='other_menu_icon fa fa-book'></i>
+				<div class='other_menu_item'> Catalog </div>
+			</div> 
+			
+			<div class='menu_divider'></div>
+
+		</div>
+		
+		<div class='other_menu_item_container' onclick='window.location="/likes"'>
+			<i class='other_menu_icon fa fa-heart'></i>
+			<div class='other_menu_item'> Liked Tracks </div>
+		</div>
+
+		<div class='menu_divider'></div>
+
+		<div class='other_menu_item_container' onclick='window.location="/listened"'>
+			<i class='other_menu_icon fa fa-calendar-check-o'></i>
+			<div class='other_menu_item'> Listened Tracks </div>
+		</div>
+
+		<div class='menu_divider'></div>
+
+		<div class='other_menu_item_container' onclick='window.location="/uploaded"'>
+			<i class='other_menu_icon fa fa-upload'></i>
+			<div class='other_menu_item'> Uploaded Tracks </div>
+		</div>
+
+		<div class='onlysmall'>
+			<div class='menu_divider'></div>
+
+			<div class='other_menu_item_container' onclick='automatic_change2()'>
+				<i class='other_menu_icon fa fa-forward'></i>
+				<div class='other_menu_item' id='other_menu_enable_automatic'> Enable Automatic </div>
+			</div>
+		</div>
+
+		<div class='onlybig'>
+			<div class='menu_divider'></div>
+
+			<div class='other_menu_item_container' onclick='show_shortcuts()'>
+				<i class='other_menu_icon fa fa-keyboard-o'></i>
+				<div class='other_menu_item'> Keyboard Shortcuts </div>
+			</div>
+		</div>
+
+		<div class='menu_divider'></div>
+
+		<div class='other_menu_item_container' onclick='change_theme()'>
+			<i class='other_menu_icon fa fa-paint-brush'></i>
+			<div class='other_menu_item'> Change Theme </div>
+		</div>
+
+		<div class='menu_divider'></div>
+
+		<div class='other_menu_item_container' onclick="window.location='/ads'">
+			<i class='other_menu_icon fa fa-star'></i>
+			<div class='other_menu_item'> Advertise On This Site </div>
+		</div>
+
+		<div class='onlybig'>
+
+		<div class='menu_divider'></div>
+			<div class='other_menu_item_container' onclick="show_suggestion_form()">
+				<i class='other_menu_icon fa fa-envelope-o'></i>
+				<div class='other_menu_item'> Send a Suggestion </div>
+			</div>
+		</div>
+
+	</div>
+
+	<audio id='audio' src='/wmedia/tracks/{{track_id}}.{{extension}}' controls='controls' autoplay='on'></audio>
+
+	<img id='image' src='/wmedia/images/{{track_id}}.jpg'>
+
+	<div id='hover_comments_container'>
+		<div id='form_container'>
+			<textarea id='board_post_text' rows=5></textarea>
+			<button class='unselectable' id='comment_submit' onclick='submit_comment_form()'> leave a comment </button>
+		</div>
+		<div id='hover_comments_inner'></div>
+	</div>
+
+	<div id='hover_suggestions_container' class='unselectable'>
+		<input type='text' placeholder='search...' id='hover_suggestions_filter'>
+		<div id='hover_suggestions_inner'></div>
+	</div>
+
+	<div id='popup_post' class='centered unselectable'></div>
+
+	<img src='/wmedia/img/play.png' id='play_icon' class='centered'>
+
+	<div id='suggestion_form'>
+		<textarea id='suggestion_text'></textarea>
+		<button id='suggestion_btn' onclick='send_suggestion()'> send suggestion </button>
+		<button id='suggestion_btn_close' onclick='hide_suggestion_form()'> close </button>
+	</div>
+
+	<div id='pop_container'></div>
+
+	<div id='volume_level'></div>
+
+{% endblock %}
+

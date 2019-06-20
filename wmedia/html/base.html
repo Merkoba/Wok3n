@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+
+	<head>
+		<meta name="description" content="Upload mp3 audio anonymously.">
+		<meta name="keywords" content="mp3, jpg, jpeg, uploader, anonymous, audio">
+		<link rel="shortcut icon" href="/wmedia/img/favicon.ico?v=4" type="image/x-icon"> 
+		<link rel="stylesheet" href="/wmedia/css/font-awesome/css/font-awesome.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="/wmedia/css/style.css?v=26"> 
+
+		<link rel="stylesheet" type="text/css" href="/wmedia/js/contextmenu/contextmenu.css"> 
+		<script type="text/javascript" src="/wmedia/js/jquery.js"></script>
+		<script type="text/javascript" src="/wmedia/js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/wmedia/js/contextmenu/contextmenu.js"></script>
+		<link rel="stylesheet" type="text/css" href="/wmedia/js/contextmenu/position.js"> 
+		
+		<script src="/wmedia/js/base.js?v=84"></script>
+
+		<script>
+			theme = localStorage.getItem('theme');
+			if(theme == null)
+			{
+				theme = 'light';
+				localStorage.setItem('theme', 'light');
+			}
+			if(theme == 'light')
+			{
+				$('head').append('<link rel="stylesheet" type="text/css" href="/wmedia/css/light_theme.css?v=10">');
+			}
+			else
+			{
+				$('head').append('<link rel="stylesheet" type="text/css" href="/wmedia/css/dark_theme.css?v=10">');
+			}
+		</script>		
+
+		{%block head %}{% endblock %}
+	</head>
+
+	<body>
+		{%block body %}{% endblock %}
+	</body>
+
+</html>
