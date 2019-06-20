@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'wokkken.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'wokkken',
-        'USER': 'debaser',
-        'PASSWORD': '420debaser',
+        'NAME': 'database_name',
+        'USER': 'database_user',
+        'PASSWORD': 'database_password',
         'HOST': 'localhost',
         'PORT': '',
     }
